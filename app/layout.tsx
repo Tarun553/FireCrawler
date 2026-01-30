@@ -40,7 +40,7 @@ export default function RootLayout({
         <Script
   src="/chatbot-widget.js"
   strategy="afterInteractive"
-  data-public-key="pk_7925aefbc71c4bc6e1e129a7d06566c1"
+  data-public-key="pk_8c56890990c0ad9af25c9e80540b12a3"
 />
       </body>
     </html>

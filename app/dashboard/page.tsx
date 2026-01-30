@@ -71,6 +71,7 @@ export default function DashboardPage() {
       }
     } catch (error) {
       toast.error("Error fetching projects");
+      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -109,6 +110,7 @@ export default function DashboardPage() {
         toast.error(error.error || "Failed to create project");
       }
     } catch (error) {
+      console.log(error);
       toast.error("Error creating project");
     } finally {
       setCreating(false);
@@ -174,6 +176,7 @@ export default function DashboardPage() {
       }
     } catch (error) {
       toast.error("Error sending message");
+      console.log(error);
     } finally {
       setChatLoading(false);
     }
@@ -209,7 +212,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50">
+    <div className="min-h-screen bg-linear-to-br from-purple-50 via-blue-50 to-pink-50">
       <div className="container mx-auto p-8">
         <div className="flex justify-between items-center mb-8">
           <div>
@@ -251,7 +254,7 @@ export default function DashboardPage() {
               <Button
                 onClick={handleCreateProject}
                 disabled={creating}
-                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                className="bg-linear-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
               >
                 {creating ? (
                   <>
@@ -400,7 +403,7 @@ export default function DashboardPage() {
         {/* Chat Test Modal */}
         {selectedProject && (
           <Card className="fixed inset-4 md:inset-auto md:right-8 md:bottom-8 md:w-[500px] md:h-[600px] shadow-2xl border-2 border-purple-300 z-50 flex flex-col">
-            <CardHeader className="bg-gradient-to-r from-purple-600 to-blue-600 text-white">
+            <CardHeader className="bg-linear-to-r from-purple-600 to-blue-600 text-white">
               <div className="flex items-center justify-between">
                 <div>
                   <CardTitle>Test Chatbot</CardTitle>
@@ -434,7 +437,7 @@ export default function DashboardPage() {
                     <div
                       className={`max-w-[80%] rounded-lg px-4 py-2 ${
                         msg.role === "user"
-                          ? "bg-gradient-to-r from-purple-600 to-blue-600 text-white"
+                          ? "bg-linear-to-r from-purple-600 to-blue-600 text-white"
                           : "bg-gray-100 text-gray-900"
                       }`}
                     >
@@ -463,7 +466,7 @@ export default function DashboardPage() {
                 <Button
                   onClick={handleSendMessage}
                   disabled={chatLoading || !chatMessage.trim()}
-                  className="bg-gradient-to-r from-purple-600 to-blue-600"
+                  className="bg-linear-to-r from-purple-600 to-blue-600"
                 >
                   Send
                 </Button>

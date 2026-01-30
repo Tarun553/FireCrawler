@@ -14,7 +14,7 @@ export default async function HomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50">
+    <div className="min-h-screen bg-linear-to-br from-purple-50 via-blue-50 to-pink-50">
       {/* Hero Section */}
       <section className="container mx-auto px-4 pt-20 pb-16 text-center">
         <div className="inline-flex items-center gap-2 bg-purple-100 text-purple-700 px-4 py-2 rounded-full mb-6">
@@ -22,7 +22,7 @@ export default async function HomePage() {
           <span className="text-sm font-medium">AI-Powered Customer Support</span>
         </div>
         
-        <h1 className="text-6xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-purple-600 via-blue-600 to-pink-600 bg-clip-text text-transparent">
+        <h1 className="text-6xl md:text-7xl font-bold mb-6 bg-linear-to-r from-purple-600 via-blue-600 to-pink-600 bg-clip-text text-transparent">
           Turn Your Website Into
           <br />
           An AI Chatbot
@@ -34,7 +34,7 @@ export default async function HomePage() {
         
         <div className="flex gap-4 justify-center">
           <Link href="/sign-up">
-            <Button size="lg" className="bg-gradient-to-r from-purple-600 to-blue-600 text-lg px-8">
+            <Button size="lg" className="bg-linear-to-r from-purple-600 to-blue-600 text-lg px-8">
               Get Started Free
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
@@ -82,7 +82,7 @@ export default async function HomePage() {
               </div>
               <CardTitle>3. Deploy Widget</CardTitle>
               <CardDescription>
-                Copy one line of code to add the chatbot to your website. It's that simple!
+                Copy one line of code to add the chatbot to your website. It&apos;s that simple!
               </CardDescription>
             </CardHeader>
           </Card>
@@ -91,28 +91,28 @@ export default async function HomePage() {
 
       {/* Benefits Section */}
       <section className="container mx-auto px-4 py-16">
-        <Card className="bg-gradient-to-r from-purple-600 to-blue-600 text-white border-0">
+        <Card className="bg-linear-to-r from-purple-600 to-blue-600 text-white border-0">
           <CardContent className="p-12">
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
                 <h2 className="text-4xl font-bold mb-6">Why Choose Firecrawl AI?</h2>
                 <ul className="space-y-4">
                   <li className="flex items-start gap-3">
-                    <Shield className="w-6 h-6 flex-shrink-0 mt-1" />
+                    <Shield className="w-6 h-6 shrink-0 mt-1" />
                     <div>
                       <strong className="block">Secure & Private</strong>
                       <span className="text-purple-100">Your data is encrypted and stored securely</span>
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
-                    <Zap className="w-6 h-6 flex-shrink-0 mt-1" />
+                    <Zap className="w-6 h-6 shrink-0 mt-1" />
                     <div>
                       <strong className="block">Lightning Fast</strong>
                       <span className="text-purple-100">Instant responses powered by AI</span>
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
-                    <Sparkles className="w-6 h-6 flex-shrink-0 mt-1" />
+                    <Sparkles className="w-6 h-6 shrink-0 mt-1" />
                     <div>
                       <strong className="block">Easy Integration</strong>
                       <span className="text-purple-100">One line of code to add to your site</span>
