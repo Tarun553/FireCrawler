@@ -4,7 +4,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "sonner";
 import { Navigation } from "@/components/navigation";
-import Script from "next/script";
+// import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,11 +37,11 @@ export default function RootLayout({
           {children}
           <Toaster position="top-right" richColors />
         </ClerkProvider>
-        <Script
+        {/* <Script
   src="/chatbot-widget.js"
   strategy="afterInteractive"
   data-public-key="pk_8c56890990c0ad9af25c9e80540b12a3"
-/>
+/> */}
       </body>
     </html>
   );

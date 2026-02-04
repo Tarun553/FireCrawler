@@ -11,15 +11,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import {
-  Loader2,
-  Plus,
-  RefreshCw,
-  ExternalLink,
-  Copy,
-  CheckCircle2,
-} from "lucide-react";
+import { Loader2, Plus, RefreshCw, ExternalLink, Copy } from "lucide-react";
 import { toast } from "sonner";
+import { VapiAssistant } from "@/components/VapiAssistant";
 
 interface Project {
   id: string;
@@ -135,6 +129,7 @@ export default function DashboardPage() {
         toast.error(error.error || "Failed to start crawl");
       }
     } catch (error) {
+      console.log(error);
       toast.error("Error starting crawl");
     } finally {
       setCrawling(null);
@@ -388,7 +383,7 @@ export default function DashboardPage() {
                           setSelectedProject(project);
                           setChatHistory([]);
                         }}
-                        className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600"
+                        className="flex-1 bg-liner-to-r from-purple-600 to-blue-600"
                       >
                         Test Chatbot
                       </Button>
@@ -475,6 +470,7 @@ export default function DashboardPage() {
           </Card>
         )}
       </div>
+      <VapiAssistant />
     </div>
   );
 }
