@@ -12,23 +12,28 @@ export function VapiAssistant() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    // Event listeners
-    vapi.on("call-start", () => {
+    const handleCallStart = () => {
       setIsSessionActive(true);
       setIsLoading(false);
-    });
+    };
 
-    vapi.on("call-end", () => setIsSessionActive(false));
+    const handleCallEnd = () => setIsSessionActive(false);
 
-    // Optional: Handle errors
-    vapi.on("error", (e) => {
+    const handleError = (e: unknown) => {
       console.error(e);
       setIsLoading(false);
       setIsSessionActive(false);
-    });
+    };
+
+    // Event listeners
+    vapi.on("call-start", handleCallStart);
+    vapi.on("call-end", handleCallEnd);
+    vapi.on("error", handleError);
 
     return () => {
-      // vapi.removeAllListeners(); // Be careful removing global listeners if used elsewhere
+      vapi.off("call-start", handleCallStart);
+      vapi.off("call-end", handleCallEnd);
+      vapi.off("error", handleError);
     };
   }, []);
 
