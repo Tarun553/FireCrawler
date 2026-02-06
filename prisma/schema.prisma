@@ -38,6 +38,8 @@ model Project {
   updatedAt   DateTime @updatedAt
 
   crawls      Crawl[]
+  analyticsSessions AnalyticsSession[]
+  analyticsEvents   AnalyticsEvent[]
 }
 
 model Crawl {
@@ -53,6 +55,49 @@ model Crawl {
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model AnalyticsSession {
+  id          String   @id @default(uuid())
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id])
+
+  sessionId   String   @unique
+  userAgent   String?
+  referrer    String?
+  landingPath String?
+  lastSeenAt  DateTime @default(now())
+  startedAt   DateTime @default(now())
+
+  events      AnalyticsEvent[]
+
+  @@index([projectId, lastSeenAt])
+}
+
+model AnalyticsEvent {
+  id          String   @id @default(uuid())
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id])
+
+  sessionId   String
+  session     AnalyticsSession @relation(fields: [sessionId], references: [sessionId])
+
+  eventType   AnalyticsEventType
+  path        String?
+  elementTag  String?
+  elementText String?
+  loadTimeMs  Int?
+  metadata    Json?
+  createdAt   DateTime @default(now())
+
+  @@index([projectId, eventType, createdAt])
+  @@index([sessionId, createdAt])
+}
+
+enum AnalyticsEventType {
+  PAGEVIEW
+  CLICK
+  SESSION_START
 }
 
 enum ProjectStatus {
