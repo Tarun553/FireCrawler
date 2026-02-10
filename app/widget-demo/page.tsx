@@ -10,6 +10,11 @@ export default function WidgetDemoPage() {
   src="${typeof window !== "undefined" ? window.location.origin : "https://yourdomain.com"}/chatbot-widget.js" 
   data-public-key="${publicKey}"
 ></script>`;
+  const analyticsEmbedCode = `<!-- Optional: Real-time analytics tracking -->
+<script
+  src="${typeof window !== "undefined" ? window.location.origin : "https://yourdomain.com"}/analytics.js"
+  data-public-key="${publicKey}"
+></script>`;
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(embedCode);
@@ -71,7 +76,29 @@ export default function WidgetDemoPage() {
             {/* Step 3 */}
             <div>
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                Step 3: That's It!
+                Step 3: Enable Real-time Analytics (Optional)
+              </h2>
+              <p className="text-gray-600 mb-4">
+                To track visitors, clicks, sessions, and AI insights, add the
+                analytics script just before the closing &lt;/body&gt; tag:
+              </p>
+              <div className="relative">
+                <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
+                  <code>{analyticsEmbedCode}</code>
+                </pre>
+                <button
+                  onClick={() => navigator.clipboard.writeText(analyticsEmbedCode)}
+                  className="absolute top-4 right-4 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition"
+                >
+                  Copy Code
+                </button>
+              </div>
+            </div>
+
+            {/* Step 4 */}
+            <div>
+              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+                Step 4: That's It!
               </h2>
               <p className="text-gray-600 mb-4">
                 The chatbot widget will automatically appear on your website. Users
@@ -121,6 +148,13 @@ export default function WidgetDemoPage() {
                   <span>
                     <strong>Easy to customize:</strong> Modify the widget's
                     appearance by editing the CSS
+                  </span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-purple-600 mr-2">✓</span>
+                  <span>
+                    <strong>Real-time analytics:</strong> Track visitors, clicks,
+                    sessions, and AI insights
                   </span>
                 </li>
               </ul>
@@ -177,6 +211,18 @@ export default function WidgetDemoPage() {
                   </div>
                   <p className="text-sm text-gray-600">
                     Send messages to the chatbot (used by widget)
+                  </p>
+                </div>
+
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-semibold">
+                      POST
+                    </span>
+                    <code className="text-sm">/api/analytics/collect</code>
+                  </div>
+                  <p className="text-sm text-gray-600">
+                    Collect real-time analytics events from the tracking script
                   </p>
                 </div>
               </div>
