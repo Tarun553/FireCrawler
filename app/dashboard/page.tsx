@@ -35,11 +35,35 @@ interface Crawl {
   finishedAt: string | null;
 }
 
+interface AnalyticsSummary {
+  stats: {
+    visitors: number;
+    pageviews: number;
+    clicks: number;
+    avgLoadTimeMs: number | null;
+    bounceRate: number;
+  };
+  trend: {
+    visitorsChange: number;
+    pageviewsChange: number;
+    clicksChange: number;
+    bounceRateChange: number;
+    loadTimeChange: number;
+  };
+  insight: string;
+}
+
 export default function DashboardPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
   const [crawling, setCrawling] = useState<string | null>(null);
+  const [analyticsByProject, setAnalyticsByProject] = useState<
+    Record<string, AnalyticsSummary | null>
+  >({});
+  const [analyticsLoading, setAnalyticsLoading] = useState<
+    Record<string, boolean>
+  >({});
 
   // New project form
   const [newProjectName, setNewProjectName] = useState("");
@@ -71,9 +95,34 @@ export default function DashboardPage() {
     }
   };
 
+  const fetchAnalytics = async (projectId: string) => {
+    setAnalyticsLoading((prev) => ({ ...prev, [projectId]: true }));
+    try {
+      const res = await fetch(`/api/analytics/insights?projectId=${projectId}`);
+      if (!res.ok) {
+        return;
+      }
+      const data = await res.json();
+      setAnalyticsByProject((prev) => ({ ...prev, [projectId]: data }));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setAnalyticsLoading((prev) => ({ ...prev, [projectId]: false }));
+    }
+  };
+
   useEffect(() => {
     fetchProjects();
   }, []);
+
+  useEffect(() => {
+    projects
+      .filter((project) => project.status === "READY")
+      .forEach((project) => {
+        if (analyticsByProject[project.id]) return;
+        fetchAnalytics(project.id);
+      });
+  }, [projects]);
 
   // Create new project
   const handleCreateProject = async () => {
@@ -350,6 +399,83 @@ export default function DashboardPage() {
                       {project.crawls[0].error && (
                         <p className="text-sm text-red-600 mt-1">
                           {project.crawls[0].error}
+                        </p>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Realtime Analytics */}
+                  {project.status === "READY" && (
+                    <div className="bg-white border border-purple-100 rounded-lg p-3 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium text-gray-700">
+                          Realtime Analytics (24h)
+                        </span>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => fetchAnalytics(project.id)}
+                          disabled={analyticsLoading[project.id]}
+                        >
+                          {analyticsLoading[project.id] ? (
+                            <>
+                              <Loader2 className="w-3 h-3 mr-2 animate-spin" />
+                              Refreshing
+                            </>
+                          ) : (
+                            "Refresh"
+                          )}
+                        </Button>
+                      </div>
+                      {analyticsByProject[project.id] ? (
+                        <div className="space-y-2">
+                          <div className="grid grid-cols-2 gap-2 text-sm text-gray-600">
+                            <div>
+                              Visitors:{" "}
+                              <span className="font-medium text-gray-900">
+                                {analyticsByProject[project.id]?.stats.visitors}
+                              </span>
+                            </div>
+                            <div>
+                              Pageviews:{" "}
+                              <span className="font-medium text-gray-900">
+                                {analyticsByProject[project.id]?.stats.pageviews}
+                              </span>
+                            </div>
+                            <div>
+                              Clicks:{" "}
+                              <span className="font-medium text-gray-900">
+                                {analyticsByProject[project.id]?.stats.clicks}
+                              </span>
+                            </div>
+                            <div>
+                              Bounce:{" "}
+                              <span className="font-medium text-gray-900">
+                                {(
+                                  (analyticsByProject[project.id]?.stats
+                                    .bounceRate || 0) * 100
+                                ).toFixed(1)}
+                                %
+                              </span>
+                            </div>
+                            <div className="col-span-2">
+                              Avg Load:{" "}
+                              <span className="font-medium text-gray-900">
+                                {analyticsByProject[project.id]?.stats
+                                  .avgLoadTimeMs
+                                  ? `${analyticsByProject[project.id]?.stats.avgLoadTimeMs} ms`
+                                  : "n/a"}
+                              </span>
+                            </div>
+                          </div>
+                          <p className="text-xs text-purple-700 bg-purple-50 border border-purple-100 rounded-md p-2">
+                            {analyticsByProject[project.id]?.insight}
+                          </p>
+                        </div>
+                      ) : (
+                        <p className="text-sm text-gray-500">
+                          Analytics will appear after the tracking script starts
+                          sending events.
                         </p>
                       )}
                     </div>
